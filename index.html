@@ -1,6 +1,119 @@
 <!DOCTYPE html>
 <html>
+  <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="assets/css/estilos.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			circle.node {
+			  cursor: pointer;
+			  stroke: #000;
+			  stroke-width: .5px;
+			}
+			circle.node.directory {
+			  stroke: #9ecae1;
+			  stroke-width: 2px;
+			}
+			circle.node.collapsed {
+			  stroke: #555;
+			}
+			.nodetext {
+			  fill: #252929;
+			  font-weight: bold;
+			  text-shadow: 0 0 0.2em white;
+			}
+			line.link {
+			  fill: none;
+			  stroke: #9ecae1;
+			  stroke-width: 1.5px;
+			}
+    	</style>
+</head>
 <body>
+  
+  <header>
+		<nav class="navbar navbar-default">
+			<div class="container">
+
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-navbar" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<a class="navbar-brand" href="#">TopSoftware</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="collapse-navbar">
+					<ul class="nav navbar-nav">
+						<li><a href="#projeto">Sobre o Projeto</a></li>
+						<li><a href="#nossos-projetos">Nossos Projetos</a></li>
+						<li><a href="#sobre-nos">Sobre Nós</a></li>
+						<li><a href="#contato">Contato</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<section id="topsoftware" class=container>
+			<div>
+				<div>
+					<h1>Projeto Final</h1>
+					<p>
+					Análise do dataset do paper
+					"From Reports to Bug-Fix Commits: A 10 Years Dataset of Bug-Fixing Activity from 55 Apache's Open Source Projects" disponível em
+					<a href="https://dl.acm.org/citation.cfm?id=3345639">Local</a>
+					O Foco da nossa análise foi sobre o dataset de bug-fixed do Hadoop (Core, HDFS, Yarn e MapReduce)
+					</p>
+
+				</div>
+			</div>
+
+			<div class="content">
+		      <div>
+		        <h1>CodeFlower Source code visualization Hadoop Release 3.2.1 LOC</h1>
+		        <p class="lead">This experiment visualizes source repositories using an interactive tree.
+		          Each disc represents a file, with a radius proportional to the number of lines of code (loc).
+		        </p>
+		        <form class="form-inline">
+		          <fieldset>
+		          <label>Example projects from GitHub:</label>
+		          <select id="project">
+		            <option value="data/hadoop_sc_release_3_2_1.json">Hadoop Release 3.2.1</option>
+		          </select>
+		          </fieldset>
+		        </form>
+		        <div id="visualization"></div>
+		        <h2>Input data format</h2>
+		        <p>The <code>jsonData</code> format taken as input to <code>update()</code> is extremely simple.
+		          It's a JavaScript object representing a file tree structure. Each node must have a <code>name</code>
+		          (the file or directory name), leaf nodes must have a <code>size</code> (the number of lines of code or the file),
+		          and directory nodes must have a <code>children</code> property containing an array of nodes.
+		          As an example, here is the input for the currently displayed CodeFlower.
+		          You can modify it at will and click the update button to see the effect of your changes on the CodeFlower.</p>
+		        <form id="jsonInput">
+		        <fieldset>
+		          <textarea id="jsonData"></textarea>
+		          <div class="pull-right">
+		            <button type="submit" class="btn btn-primary btn-large">Update</button>
+		          </div>
+		        </fieldset>
+		        </form>
+
+		      </div>
+    		</div>
+
+		</section>
+
+</header>
+  
 <script type="module">
 // Load the Observable runtime and inspector.
 import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
@@ -11,5 +124,60 @@ import notebook from "https://api.observablehq.com/@juarezmeneses/analise-dos-bu
 // that simply renders the value of each cell into the provided DOM node.
 new Runtime().module(notebook, Inspector.into(document.body));
 </script>
+  
+  <script src="assets/js/jquery.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/navbar-animation-fix.js"></script>
+	<script src="assets/js/d3/d3.js"></script>
+	<script src="assets/js/d3/d3.geom.js"></script>
+	<script src="assets/js/d3/d3.layout.js"></script>
+	<script src="assets/js/CodeFlower.js"></script>
+	<script src="assets/js/dataConverter.js"></script>
+
+	<script type="text/javascript">
+      var currentCodeFlower;
+      var createCodeFlower = function(json) {
+        // update the jsonData textarea
+        document.getElementById('jsonData').value = JSON.stringify(json);
+        // remove previous flower to save memory
+        if (currentCodeFlower) currentCodeFlower.cleanup();
+        // adapt layout size to the total number of elements
+        var total = countElements(json);
+        w = parseInt(Math.sqrt(total) * 30, 10);
+        h = parseInt(Math.sqrt(total) * 30, 10);
+        // create a new CodeFlower
+        currentCodeFlower = new CodeFlower("#visualization", w, h).update(json);
+      };
+      d3.json('data.json', createCodeFlower);
+      document.getElementById('project').addEventListener('change', function() {
+        d3.json(this.value, createCodeFlower);
+      });
+      document.getElementById('jsonInput').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('visualization').scrollIntoView();
+        var json = JSON.parse(document.getElementById('jsonData').value);
+        currentCodeFlower.update(json);
+      });
+      document.getElementById('jsonConverter').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var origin = this.children[0].children[0].value;
+        var data = this.children[0].children[1].value;
+        var json = convertToJSON(data, origin);
+        document.getElementById('visualization').scrollIntoView();
+        createCodeFlower(json);
+      });
+    </script>
+    
+    <script type="text/javascript">
+  		var _gaq = _gaq || [];
+  		_gaq.push(['_setAccount', 'UA-26354577-2']);
+  		_gaq.push(['_trackPageview']);
+  		(function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  		})();
+    </script>
+  
 </body>
 </html>

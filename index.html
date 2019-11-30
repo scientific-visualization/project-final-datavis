@@ -43,9 +43,6 @@
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse-navbar" aria-expanded="false">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
 					</button>
 
 					<a class="navbar-brand" href="#">TopSoftware</a>
@@ -54,9 +51,6 @@
 				<div class="collapse navbar-collapse" id="collapse-navbar">
 					<ul class="nav navbar-nav">
 						<li><a href="#projeto">Sobre o Projeto</a></li>
-						<li><a href="#nossos-projetos">Nossos Projetos</a></li>
-						<li><a href="#sobre-nos">Sobre Nós</a></li>
-						<li><a href="#contato">Contato</a></li>
 					</ul>
 				</div>
 			</div>
@@ -75,8 +69,22 @@
 
 				</div>
 			</div>
+		</section>
 
-			<div class="content">
+</header>
+  
+<script type="module">
+// Load the Observable runtime and inspector.
+import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+// Your notebook, compiled as an ES module.
+//import notebook from "https://api.observablehq.com/@juarezmeneses/introducao-ao-d3-parte-2-escalas-e-eixos.js?v=3";
+import notebook from "https://api.observablehq.com/@juarezmeneses/analise-dos-bug-fixes-do-framework-hadoop/2.js?v=3";
+// Load the notebook, observing its cells with a default Inspector
+// that simply renders the value of each cell into the provided DOM node.
+new Runtime().module(notebook, Inspector.into(document.body));
+</script>
+  
+<div class="content">
 		      <div>
 		        <h1>CodeFlower Source code visualization Hadoop Release 3.2.1 LOC</h1>
 		        <p class="lead">This experiment visualizes source repositories using an interactive tree.
@@ -109,22 +117,7 @@
 
 		      </div>
     		</div>
-
-		</section>
-
-</header>
-  
-<script type="module">
-// Load the Observable runtime and inspector.
-import {Runtime, Inspector} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
-// Your notebook, compiled as an ES module.
-//import notebook from "https://api.observablehq.com/@juarezmeneses/introducao-ao-d3-parte-2-escalas-e-eixos.js?v=3";
-import notebook from "https://api.observablehq.com/@juarezmeneses/analise-dos-bug-fixes-do-framework-hadoop/2.js?v=3";
-// Load the notebook, observing its cells with a default Inspector
-// that simply renders the value of each cell into the provided DOM node.
-new Runtime().module(notebook, Inspector.into(document.body));
-</script>
-  
+	
   <script src="assets/js/jquery.js"></script>
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 	<script src="assets/js/navbar-animation-fix.js"></script>

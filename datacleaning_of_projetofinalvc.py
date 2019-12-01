@@ -47,6 +47,10 @@ URL_COMMENT_LOG_YARN = "https://raw.githubusercontent.com/scientific-visualizati
 
 URL_TARGET_PROJECTS_LIBS = "https://raw.githubusercontent.com/scientific-visualization/final/master/target-projects-list.csv"
 
+URL_CLOC_HADOOP_3_2_1 = "https://raw.githubusercontent.com/scientific-visualization/project-final-datavis/master/source-code/hadoop-rel-release-3.2.1.cloc"
+URL_CLOC_HADOOP_2_3_0 = "https://raw.githubusercontent.com/scientific-visualization/project-final-datavis/master/source-code/hadoop-release-2.3.0.cloc"
+URL_CLOC_HADOOP_1_0 = "https://raw.githubusercontent.com/scientific-visualization/project-final-datavis/master/source-code/hadoop-branch-1_0.cloc"
+
 """## 2. Loadind Dataset"""
 
 import pandas as pd
@@ -72,6 +76,10 @@ df_commentlog_hdfs = pd.read_csv(URL_COMMENT_LOG_HDFS, sep=';')
 df_commentlog_yard = pd.read_csv(URL_COMMENT_LOG_YARN, sep=';')
 
 df_target_projects_libs = pd.read_csv(URL_TARGET_PROJECTS_LIBS)
+
+df_cloc_hadoop_3_2_1 = pd.read_csv(URL_CLOC_HADOOP_3_2_1)
+df_cloc_hadoop_2_3_0 = pd.read_csv(URL_CLOC_HADOOP_2_3_0)
+df_cloc_hadoop_1_0 = pd.read_csv(URL_CLOC_HADOOP_1_0)
 
 """## 3. Routines
 
@@ -581,6 +589,25 @@ df_commitlog_summarized_by_key.head(10)
 
 df_commitlog_summarized_by_changetype
 
+"""### 2.5 Hadoop Source Code Release 3.2.1"""
+
+df_hadoop_sc_release_3_2_1 = pd.read_csv('https://raw.githubusercontent.com/scientific-visualization/final/master/source-code/hadoop-rel-release-3.2.1.cloc')
+
+df_hadoop_sc_release_3_2_1.head(5)
+
+#df_hadoop_sc_release_3_2_1.columns
+df_hadoop_sc_release_3_2_1.drop(['github.com/AlDanial/cloc v 1.76  T=41.51 s (301.7 files/s, 100149.0 lines/s)'], axis=1, inplace=True)
+
+df_hadoop_sc_release_3_2_1.head(10)
+
+df_hadoop_sc_release_3_2_1.language.unique()
+
+len(df_hadoop_sc_release_3_2_1.language.unique())
+
+df_hadoop_sc_release_3_2_1.info()
+
+df_hadoop_sc_release_3_2_1.describe()
+
 """## 3. Mapreduce Bug-Fix
 
 ### 3.1 Snapshot
@@ -877,7 +904,7 @@ df_snapshot_yarn.sort_values(by=['DiffDates'], ascending=True).head(3)
 
 df_snapshot_yarn.describe()
 
-"""# Concat all snapshot dataframes"""
+"""# C. Concat all snapshot dataframes"""
 
 frames = [df_snapshot_hadoop, df_snapshot_mapreduce, df_snapshot_hdfs, df_snapshot_yarn]
 
@@ -885,12 +912,161 @@ result = pd.concat(frames, ignore_index=True)
 
 result
 
+df_affectsversions = result.query("AffectsVersions!='unknown'")
+
+print_full(df_affectsversions['AffectsVersions'])
+
+unique_AffectsVersions = df_affectsversions['AffectsVersions'].unique()
+
+unique_AffectsVersions
+
+df_fixversions = result.query("FixVersions!='unknown'")
+
+df_fixversions.head()
+
+unique_FixVersions = df_fixversions['FixVersions'].unique()
+
+print_full(df_fixversions['FixVersions'])
+
+unique_FixVersions
+
 #You have to mount your drive and authenticate...
 #from google.colab import drive
 #drive.mount('drive')
 
-#result.to_csv('concat_snapshot_all_hadoop.csv', encoding='utf-8', index=False)
+#result.to_csv('concat_snapshot_all_hadoop.csv', encoding='utf-8', sep=',', index=False)
 #!cp concat_snapshot_all_hadoop.csv drive/My\ Drive/
 
 #result.to_csv('concat_snapshot_all_hadoop_pv.csv', sep=';', encoding='utf-8', index=False)
 #!cp concat_snapshot_all_hadoop_pv.csv drive/My\ Drive/
+
+result.columns
+
+"""# D - CLOC ANALYSIS"""
+
+df_cloc_hadoop_1_0
+
+df_cloc_hadoop_1_0.shape[0]
+
+df_cloc_hadoop_3_2_1.columns
+
+df_cloc_hadoop_3_2_1.drop('github.com/AlDanial/cloc v 1.76  T=41.51 s (301.7 files/s, 100149.0 lines/s)', axis=1, inplace=True)
+
+df_cloc_hadoop_3_2_1
+
+df_cloc_hadoop_3_2_1.shape[0]
+
+df_cloc_hadoop_3_2_1.code = 1
+
+df_cloc_hadoop_2_3_0.columns
+
+df_cloc_hadoop_2_3_0.drop('github.com/AlDanial/cloc v 1.76  T=19.10 s (295.0 files/s, 101197.4 lines/s)', axis=1, inplace=True)
+
+df_cloc_hadoop_2_3_0
+
+df_cloc_hadoop_2_3_0.shape[0]
+
+df_cloc_hadoop_2_3_0.code = 1
+
+df_cloc_hadoop_1_0.columns
+
+df_cloc_hadoop_1_0.drop('github.com/AlDanial/cloc v 1.76  T=15.76 s (173.9 files/s, 92168.6 lines/s)', axis=1, inplace=True)
+
+df_cloc_hadoop_1_0
+
+df_cloc_hadoop_1_0.code = 1
+
+#You have to mount your drive and authenticate...
+from google.colab import drive
+drive.mount('drive')
+
+df_cloc_hadoop_1_0.to_csv('c1loc_hadoop_1_0.csv', encoding='utf-8', sep=',', index=False)
+!cp c1loc_hadoop_1_0.csv drive/My\ Drive/
+
+df_cloc_hadoop_2_3_0.to_csv('c1loc_hadoop_2_3_0.csv', encoding='utf-8', sep=',', index=False)
+!cp c1loc_hadoop_2_3_0.csv drive/My\ Drive/
+
+df_cloc_hadoop_3_2_1.to_csv('c1loc_hadoop_3_2_1.csv', encoding='utf-8', sep=',', index=False)
+!cp c1loc_hadoop_3_2_1.csv drive/My\ Drive/
+
+"""# Concat Commitlogs"""
+
+df_commitlog_hadoop.columns
+
+df_commitlog_hdfs.columns
+
+df_commitlog_mapreduce.columns
+
+df_commitlog_yarn.columns
+
+frames_commitlogs = [df_commitlog_hadoop, df_commitlog_hdfs, df_commitlog_mapreduce, df_commitlog_yarn]
+
+result_commitlogs = pd.concat(frames_commitlogs, ignore_index=True)
+
+result_commitlogs
+
+result_commitlogs[['Key', 'FileName']]
+
+
+
+"""# Compare Affect Versions and Commit Logs"""
+
+df_snapshot_affects_versions = result[['Key', 'AffectsVersions']]
+
+df_commitlogs = result_commitlogs[['Key', 'FileName']]
+
+df_commitlogs.reset_index(drop=True, inplace=True)
+
+df_affects_1_0_0 = df_snapshot_affects_versions.query('AffectsVersions in "1.0.0"')
+
+df_affects_1_0_0.reset_index(drop=True, inplace=True)
+
+df_affects_2_3_0 = df_snapshot_affects_versions.query('AffectsVersions in "2.3.0"')
+
+df_affects_2_3_0.reset_index(drop=True, inplace=True)
+
+df_affects_3_2_1 = df_snapshot_affects_versions.query('AffectsVersions in "3.2.0"')
+
+df_affects_3_2_1.reset_index(drop=True, inplace=True)
+
+df_affects_3_2_1
+
+df_commitlogs
+
+lista_1_0_0 = []
+for i in range(df_commitlogs.shape[0]):
+  for j in range(df_affects_1_0_0.shape[0]):
+    elemento = []
+    if (df_commitlogs.loc[i, 'Key'] == (df_affects_1_0_0.loc[j, 'Key'])) :
+      elemento.append(df_affects_1_0_0.loc[j, 'Key'])
+      elemento.append(df_commitlogs.loc[i, 'FileName'])
+      lista_1_0_0.append(elemento)
+lista_1_0_0
+
+lista_2_3_0 = []
+for i in range(df_commitlogs.shape[0]):
+  for j in range(df_affects_2_3_0.shape[0]):
+    elemento = []
+    if (df_commitlogs.loc[i, 'Key'] == (df_affects_2_3_0.loc[j, 'Key'])) :
+      elemento.append(df_affects_2_3_0.loc[j, 'Key'])
+      elemento.append(df_commitlogs.loc[i, 'FileName'])
+      lista_2_3_0.append(elemento)
+lista_2_3_0
+
+lista_3_2_1 = []
+for i in range(df_commitlogs.shape[0]):
+  for j in range(df_affects_3_2_1.shape[0]):
+    elemento = []
+    if (df_commitlogs.loc[i, 'Key'] == (df_affects_3_2_1.loc[j, 'Key'])) :
+      elemento.append(df_affects_3_2_1.loc[j, 'Key'])
+      elemento.append(df_commitlogs.loc[i, 'FileName'])
+      lista_3_2_1.append(elemento)
+lista_3_2_1
+
+df_commitlogs.shape[0]
+
+df_affects_1_0_0.shape[0]
+
+df_affects_2_3_0.shape[0]
+
+df_affects_3_2_1.shape[0]

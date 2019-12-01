@@ -73,15 +73,7 @@
 	
 	<section id="projeto" class=container>
 	<div>
-		<div>
-			<h1>...</h1>
-			<p>
-			Análise do dataset do paper
-			"From Reports to Bug-Fix Commits: A 10 Years Dataset of Bug-Fixing Activity from 55 Apache's Open Source Projects" disponível em
-			<a href="https://dl.acm.org/citation.cfm?id=3345639">Local</a>
-			O Foco da nossa análise foi sobre o dataset de bug-fixed do Hadoop (Core, HDFS, Yarn e MapReduce)
-			</p>
-
+		<div>			
 			<h2> Descrição do projeto:</h2>
 			<p>
 				Este projeto tem como objetivo explorar e analisar um subconjunto de datasets extraídos e propostos no paper "From Reports to Bug-Fix Commits: A 10 Years Dataset of Bug-Fixing Activity from 55 Apache’s Open Source Projects" [1], visto a importância da análise de repositórios de softwares livres através da mineração de dados para identificar padrões de comportamento dos bugs ao longo da evolução do software. Por exemplo, tipos de bug, criticidade, predição, correção entre outros fatores críticos referentes a análise de bugs podem ser explorados. Como o dataset é muito grande (156 arquivos .csv) resolvemos escolher um subconjunto do dataset do framework do Hadoop [2] (composto pelos módulos Core [3], Yarn [4], HDFS [5] e Mapreduce [6]), visto que o percentual de bugs da suíte do Hadoop representa aproximadamente 30% do conjunto total de bugs registrados.
@@ -160,15 +152,16 @@ new Runtime().module(notebook, Inspector.into(document.body));
   
 <div class="content">
 		      <div>
-		        <h1>CodeFlower Source code visualization Hadoop Release 3.2.1 LOC</h1>
+		        <h1>CodeFlower Source code visualization Hadoop Releases LOC</h1>
 		        <p class="lead">This experiment visualizes source repositories using an interactive tree.
 		          Each disc represents a file, with a radius proportional to the number of lines of code (loc).
 		        </p>
 		        <form class="form-inline">
 		          <fieldset>
-		          <label>Example projects from GitHub:</label>
+		          <label>Projects from GitHub:</label>
 		          <select id="project">
 		            <option value="data/hadoop_sc_release_3_2_1.json">Hadoop Release 3.2.1</option>
+		            <option value="data/hadoop-release-2_3_0.json">Hadoop Release 2.3.0</option>				  
 		          </select>
 		          </fieldset>
 		        </form>

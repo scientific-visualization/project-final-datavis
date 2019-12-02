@@ -18,6 +18,10 @@ Os dados foram obtidos por meio do paper em análise, o qual foram disponibiliza
 ### Tecnologias/ferramentas utilizadas:
 Python [9], Pandas [8], Seaborn [11], Jupyter Notebook [12], JavaScript [13] e D3 [14], Google Colabs [10], Tableau [7] e Code Flower.
 
+### Site dinâmico com os resultados
+
+Foi feita a integração dos dados para visualizar os grafos de árvores interativas das versões analisadas, bem como os gráficos de análises dos bugs do dataset de referência. Disponível em [https://scientific-visualization.github.io/project-final-datavis/](https://scientific-visualization.github.io/project-final-datavis/)
+
 ### Referências
 
 - [1] Renan Vieira, Antônio da Silva, Lincoln Rocha, and João Paulo Gomes. 2019. From Reports to Bug-Fix Commits: A 10 Years Dataset of Bug-Fixing Activity from 55 Apache's Open Source Projects. In Proceedings of the Fifteenth International Conference on Predictive Models and Data Analytics in Software Engineering (PROMISE'19). ACM, New York, NY, USA, 80-89. DOI: https://doi.org/10.1145/3345629.3345639

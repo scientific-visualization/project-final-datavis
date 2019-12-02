@@ -20,8 +20,6 @@ Python [9], Pandas [8], Seaborn [11], Jupyter Notebook [12], JavaScript [13] e D
 
 ### Referências
 
-## Referencias bibliográficas
-
 - [1] Renan Vieira, Antônio da Silva, Lincoln Rocha, and João Paulo Gomes. 2019. From Reports to Bug-Fix Commits: A 10 Years Dataset of Bug-Fixing Activity from 55 Apache's Open Source Projects. In Proceedings of the Fifteenth International Conference on Predictive Models and Data Analytics in Software Engineering (PROMISE'19). ACM, New York, NY, USA, 80-89. DOI: https://doi.org/10.1145/3345629.3345639
 
 - [2] Hadoop - Framework open-source para computação massiva paralela e distribuída de dados. Disponível em [https://hadoop.apache.org](https://hadoop.apache.org)
